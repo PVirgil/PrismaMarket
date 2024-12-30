@@ -52,3 +52,63 @@ export default function Home() {
     </div>
   );
 }
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+header {
+  background-color: #343a40;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+h1, h2 {
+  margin: 0;
+}
+main {
+  padding: 2rem;
+}
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+{
+  "name": "my-valuable-website",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {}
+}
+# My Valuable Website
+
+This is a high-value website project designed for deployment on Netlify. It includes:
+- A dynamic product list powered by serverless functions.
+- Optimized for SEO and scalability with Next.js.
+- Integrated with Netlify for seamless deployment.
+
+## Features
+- Dynamic product data with Netlify Functions.
+- Modern React framework using Next.js.
+- Ready-to-deploy on Netlify.
+
+## Setup
+1. Clone this repository.
+2. Install dependencies: `npm install`
+3. Run locally: `npm run dev`
+4. Deploy on Netlify.
+node_modules/
+.next/
