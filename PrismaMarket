@@ -1,0 +1,54 @@
+echo "# PrismaMarket" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/PVirgil/PrismaMarket.git
+git push -u origin main
+const products = [
+  { id: 1, name: "Product A", description: "A fantastic product.", price: 49.99, image: "/product-a.jpg" },
+  { id: 2, name: "Product B", description: "Another great product.", price: 79.99, image: "/product-b.jpg" },
+];
+
+exports.handler = async () => {
+  return {
+    statusCode: 200,
+    body: JSON.stringify(products),
+  };
+};
+import { useState, useEffect } from 'react';
+
+export default function Home() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const res = await fetch('/.netlify/functions/loadProducts');
+      const data = await res.json();
+      setProducts(data);
+    }
+    fetchProducts();
+  }, []);
+
+  return (
+    <div>
+      <header>
+        <h1>Welcome to the Most Valuable Website</h1>
+      </header>
+      <main>
+        <h2>Our Products</h2>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          {products.map((product) => (
+            <div key={product.id} style={{ border: '1px solid #ccc', padding: '1rem', width: '200px' }}>
+              <img src={product.image} alt={product.name} style={{ width: '100%' }} />
+              <h3>{product.name}</h3>
+              <p>{product.description}</p>
+              <p>${product.price.toFixed(2)}</p>
+              <button onClick={() => alert(`Purchased: ${product.name}`)}>Buy Now</button>
+            </div>
+          ))}
+        </div>
+      </main>
+    </div>
+  );
+}
