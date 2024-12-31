@@ -1,65 +1,22 @@
-PrismaMarket/
-├── netlify/
-│   ├── functions/
-│       └── loadProducts.js
-├── public/
-│   ├── product-a.jpg
-│   ├── product-b.jpg
-├── pages/
-│   ├── index.js
-├── styles/
-│   ├── globals.css
-├── .gitignore
-├── netlify.toml
-├── package.json
-├── README.md
-const products = [
-  { id: 1, name: "Product A", description: "A fantastic product.", price: 49.99, image: "/product-a.jpg" },
-  { id: 2, name: "Product B", description: "Another great product.", price: 79.99, image: "/product-b.jpg" },
-];
-
-exports.handler = async () => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(products),
-  };
-};
-import { useState, useEffect } from "react";
-
-export default function Home() {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    async function fetchProducts() {
-      const res = await fetch("/.netlify/functions/loadProducts");
-      const data = await res.json();
-      setProducts(data);
-    }
-    fetchProducts();
-  }, []);
-
-  return (
-    <div>
-      <header>
-        <h1>Welcome to PrismaMarket</h1>
-      </header>
-      <main>
-        <h2>Our Products</h2>
-        <div style={{ display: "flex", gap: "1rem" }}>
-          {products.map((product) => (
-            <div key={product.id} style={{ border: "1px solid #ccc", padding: "1rem", width: "200px" }}>
-              <img src={product.image} alt={product.name} style={{ width: "100%" }} />
-              <h3>{product.name}</h3>
-              <p>{product.description}</p>
-              <p>${product.price.toFixed(2)}</p>
-              <button onClick={() => alert(`Purchased: ${product.name}`)}>Buy Now</button>
-            </div>
-          ))}
-        </div>
-      </main>
-    </div>
-  );
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrismaMarket</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Welcome to PrismaMarket</h1>
+  </header>
+  <main>
+    <h2>Our Products</h2>
+    <div id="products" class="product-list"></div>
+  </main>
+  <script src="scripts.js"></script>
+</body>
+</html>
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -78,50 +35,54 @@ h1, h2 {
 main {
   padding: 2rem;
 }
-[build]
-  command = "npm run build"
-  publish = ".next"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-{
-  "name": "prismamarket",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest"
-  },
-  "devDependencies": {}
+.product-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
-node_modules/
-.next/
-# PrismaMarket
+.product-card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  width: 200px;
+}
+.product-card img {
+  width: 100%;
+}
+.product-card button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.product-card button:hover {
+  background-color: #0056b3;
+}
+const products = [
+  { id: 1, name: "Product A", description: "A fantastic product.", price: 49.99, image: "product-a.jpg" },
+  { id: 2, name: "Product B", description: "Another great product.", price: 79.99, image: "product-b.jpg" },
+];
 
-PrismaMarket is a modern e-commerce platform designed to showcase premium products. This project is optimized for deployment on Netlify and includes dynamic functionality through serverless functions.
+function displayProducts() {
+  const productContainer = document.getElementById("products");
+  products.forEach(product => {
+    const productCard = document.createElement("div");
+    productCard.className = "product-card";
 
-## Features
-- Dynamic product listings powered by Netlify Functions.
-- Built with Next.js for SEO optimization and scalability.
-- Modern and responsive design.
+    productCard.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <p>$${product.price.toFixed(2)}</p>
+      <button onclick="buyProduct('${product.name}')">Buy Now</button>
+    `;
+    productContainer.appendChild(productCard);
+  });
+}
 
-## Setup
-1. Clone this repository.
-2. Install dependencies: `npm install`
-3. Run locally: `npm run dev`
-4. Deploy on Netlify.
+function buyProduct(productName) {
+  alert(`Purchased: ${productName}`);
+}
 
-## Deployment
-- Automatically compatible with Netlify.
-- Includes serverless functions for loading product data.
-
-## License
-MIT
+document.addEventListener("DOMContentLoaded", displayProducts);
 
