@@ -1,10 +1,18 @@
-echo "# PrismaMarket" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/PVirgil/PrismaMarket.git
-git push -u origin main
+PrismaMarket/
+├── netlify/
+│   ├── functions/
+│       └── loadProducts.js
+├── public/
+│   ├── product-a.jpg
+│   ├── product-b.jpg
+├── pages/
+│   ├── index.js
+├── styles/
+│   ├── globals.css
+├── .gitignore
+├── netlify.toml
+├── package.json
+├── README.md
 const products = [
   { id: 1, name: "Product A", description: "A fantastic product.", price: 49.99, image: "/product-a.jpg" },
   { id: 2, name: "Product B", description: "Another great product.", price: 79.99, image: "/product-b.jpg" },
@@ -16,14 +24,14 @@ exports.handler = async () => {
     body: JSON.stringify(products),
   };
 };
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     async function fetchProducts() {
-      const res = await fetch('/.netlify/functions/loadProducts');
+      const res = await fetch("/.netlify/functions/loadProducts");
       const data = await res.json();
       setProducts(data);
     }
@@ -33,14 +41,14 @@ export default function Home() {
   return (
     <div>
       <header>
-        <h1>Welcome to the Most Valuable Website</h1>
+        <h1>Welcome to PrismaMarket</h1>
       </header>
       <main>
         <h2>Our Products</h2>
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{ display: "flex", gap: "1rem" }}>
           {products.map((product) => (
-            <div key={product.id} style={{ border: '1px solid #ccc', padding: '1rem', width: '200px' }}>
-              <img src={product.image} alt={product.name} style={{ width: '100%' }} />
+            <div key={product.id} style={{ border: "1px solid #ccc", padding: "1rem", width: "200px" }}>
+              <img src={product.image} alt={product.name} style={{ width: "100%" }} />
               <h3>{product.name}</h3>
               <p>{product.description}</p>
               <p>${product.price.toFixed(2)}</p>
@@ -79,7 +87,7 @@ main {
   to = "/index.html"
   status = 200
 {
-  "name": "my-valuable-website",
+  "name": "prismamarket",
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
@@ -93,22 +101,27 @@ main {
   },
   "devDependencies": {}
 }
-# My Valuable Website
+node_modules/
+.next/
+# PrismaMarket
 
-This is a high-value website project designed for deployment on Netlify. It includes:
-- A dynamic product list powered by serverless functions.
-- Optimized for SEO and scalability with Next.js.
-- Integrated with Netlify for seamless deployment.
+PrismaMarket is a modern e-commerce platform designed to showcase premium products. This project is optimized for deployment on Netlify and includes dynamic functionality through serverless functions.
 
 ## Features
-- Dynamic product data with Netlify Functions.
-- Modern React framework using Next.js.
-- Ready-to-deploy on Netlify.
+- Dynamic product listings powered by Netlify Functions.
+- Built with Next.js for SEO optimization and scalability.
+- Modern and responsive design.
 
 ## Setup
 1. Clone this repository.
 2. Install dependencies: `npm install`
 3. Run locally: `npm run dev`
 4. Deploy on Netlify.
-node_modules/
-.next/
+
+## Deployment
+- Automatically compatible with Netlify.
+- Includes serverless functions for loading product data.
+
+## License
+MIT
+
